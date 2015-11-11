@@ -1,0 +1,31 @@
+{
+    "name": "filmoteca/static-pages",
+    "description": "",
+    "authors": [
+        {
+            "name": "filmoteca",
+            "email": "victor.aguilar@ciencias.unam.mx"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*",
+        "illuminate/routing": "4.2.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations",
+            "src/seeds",
+            "src/controllers"
+        ],
+        "psr-0": {
+            "Filmoteca\\StaticPages\\": ["src/", "migrations/"]
+        }
+    },
+    "minimum-stability": "stable",
+    "require-dev": {
+        "fzaninotto/faker": "1.5.x",
+        "phpunit/phpunit": "4.x.x",
+        "mockery/mockery": "0.9.4"
+    }
+}

@@ -116,12 +116,18 @@ class StaticPagesController extends Controller
             );
     }
 
+    /**
+     * @param $id
+     */
     public function edit($id)
     {
         $page = $this->staticPageProvider->findById($id);
         return $this->create($page);
     }
 
+    /**
+     * @param $id
+     */
     public function destroy($id)
     {
         $this->repository->destroy($id);

@@ -1,7 +1,5 @@
 <?php
 
-namespace Filmoteca\StaticPages;
-
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 

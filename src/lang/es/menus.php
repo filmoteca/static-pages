@@ -1,14 +1,8 @@
 <?php
 
 return [
-    'stored' => 'Página guardada.',
-    'updated' => 'Página actualizada.',
-    'validation' => [
-        'title' => [
-            'required' => 'El título es requerido.',
-        ],
-        'slug' => [
-            'required' => 'El slug es requerido.'
-        ]
-    ]
+    'stored' => 'Menu guardado.',
+    'updated' => 'Menu actualizado.',
+    'menu-structure' => 'Estructura del menú',
+    'add-selected-pages' => 'Agregar páginas seleccionadas'
 ];

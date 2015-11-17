@@ -1,15 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: victor
- * Date: 15/11/15
- * Time: 08:53 PM
- */
 
 namespace Filmoteca\StaticPages;
 
+use Illuminate\Routing\Controller;
 
-class BaseController
+class BaseController extends Controller
 {
-
+    const PACKAGE_NAME      = 'filmoteca/static-pages';
 }

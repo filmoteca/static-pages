@@ -11,5 +11,7 @@ return [
     'actions' => 'Acción',
     'edit' => 'Editar',
     'created-at' => 'Creado',
-    'updated-at' => 'Actualizado'
+    'updated-at' => 'Actualizado',
+    'pages' => 'Páginas',
+    'links' => 'Enlaces'
 ];

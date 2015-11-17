@@ -65,5 +65,10 @@ class StaticPagesServiceProvider extends ServiceProvider
             'Filmoteca\StaticPages\Repositories\StaticPagesRepository\StaticPagesRepositoryInterface',
             'Filmoteca\StaticPages\Repositories\StaticPagesRepository\StaticPagesEloquentRepository'
         );
+
+        $this->app->bind(
+            'Filmoteca\StaticPages\Repositories\MenusRepository\MenusRepositoryInterface',
+            'Filmoteca\StaticPages\Repositories\MenusRepository\MenusEloquentRepository'
+        );
     }
 }

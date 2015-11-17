@@ -3,10 +3,10 @@
 namespace Filmoteca\StaticPages\Repositories\MenusRepository;
 
 /**
- * Interface MenuRepositoryInterface
+ * Interface MenusRepositoryInterface
  * @package Filmoteca\StaticPages\Repositories
  */
-interface MenuRepositoryInterface
+interface MenusRepositoryInterface
 {
     /**
      * @param array $rawMenu

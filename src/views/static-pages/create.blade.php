@@ -11,7 +11,7 @@
     @endif
 
     <div class="form-group">
-        <label for="title" class="control-label">{{ Lang::get('filmoteca/static-pages::general.title') }}</label>
+        <label for="title" class="control-label">@lang('filmoteca/static-pages::general.title')</label>
         {{ Form::text('title', null, ['class' => 'form-control', 'id' => 'title']) }}
     </div>
 
@@ -21,17 +21,17 @@
     </div>
 
     <div class="form-group">
-        <label for="content" class="control-label">{{ Lang::get('filmoteca/static-pages::general.content') }}</label>
+        <label for="content" class="control-label">@lang('filmoteca/static-pages::general.content')</label>
         {{ Form::textarea('content', null, ['class' => 'form-control', 'id' => 'content']) }}
     </div>
 
     <div class="form-group">
-        <label for="status" class="control-label">{{ Lang::get('filmoteca/static-pages::general.status') }}</label>
+        <label for="status" class="control-label">@lang('filmoteca/static-pages::general.status')</label>
         {{ Form::select('status', $status, $defaultStatus, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        <label for="parent_page_id" class="control-label">{{ Lang::get('filmoteca/static-pages::general.page-parent') }}</label>
+        <label for="parent_page_id" class="control-label">@lang('filmoteca/static-pages::general.page-parent')</label>
 
         {{ Form::selectParentPage('parent_page_id', $pages, $page, ['class' => 'form-control']) }}
     </div>

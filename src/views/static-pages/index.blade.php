@@ -18,11 +18,11 @@
                 <td>{{ $page->updated_at }}</td>
                 <td>
                     {{ Form::open(['action' => ['Filmoteca\StaticPages\StaticPagesController@destroy', $page->id], 'method'=> 'DELETE']) }}
-                        <button class="btn btn-danger" type="submit">{{ Lang::get('filmoteca/static-pages::general.delete') }}</button>
+                        <button class="btn btn-danger" type="submit">@lang('filmoteca/static-pages::general.delete')</button>
                     {{ Form::close() }}
 
                     <a class="btn btn-info" href="{{ URL::action('Filmoteca\StaticPages\StaticPagesController@edit', ['id' => $page->id]) }}">
-                        {{ Lang::get('filmoteca/static-pages::general.edit') }}
+                        @lang('filmoteca/static-pages::general.edit')
                     </a>
                 </td>
             </tr>

@@ -1,7 +1,7 @@
 @extends('filmoteca/static-pages::layouts.default')
 
 @section('title')
-    @lang('filmoteca/static-pages::menu.title')
+    @lang('filmoteca/static-pages::menus.title')
 @endsection
 
 @section('content')
@@ -42,11 +42,25 @@
                     </div>
                     <div id="links" class="panel-collapse collapse in" role="tabpanel">
                         <div class="panel-body">
-                            Links
+                            <div class="form-group">
+                                <label for="link" class="control-label">
+                                    @lang('filmoteca/static-pages::general.link')
+                                </label>
+                                <input name="link" type="text" class="form-control" id="link">
+                            </div>
+                            <div class="form-group">
+                                <label for="url" class="control-label">
+                                    @lang('filmoteca/static-pages::general.label')
+                                </label>
+                                <input name="url" type="text" class="form-control" id="label-link">
+                            </div>
+                            <button class="add-pages">
+                                @lang('filmoteca/static-pages::menus.add-link')
+                            </button>
                         </div>
                     </div>
                 </div>
-                </div>
+            </div>
         </div>
         <div class="col-sm-8">
             <div class="panel panel-default">

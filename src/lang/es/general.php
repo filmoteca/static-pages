@@ -13,5 +13,7 @@ return [
     'created-at' => 'Creado',
     'updated-at' => 'Actualizado',
     'pages' => 'Páginas',
-    'links' => 'Enlaces'
+    'links' => 'Enlaces',
+    'link' => 'Enlace',
+    'label' => 'Etiqueta'
 ];

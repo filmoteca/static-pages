@@ -26,7 +26,7 @@
                             <button class="add-pages">
                                 @lang('filmoteca/static-pages::menus.add-selected-pages')
                             </button>
-                            {{ Form::staticPagesTree($pages) }}
+                            {{ Form::staticPagesTree($pagesTree) }}
                             <button class="add-pages">
                                 @lang('filmoteca/static-pages::menus.add-selected-pages')
                             </button>

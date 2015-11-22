@@ -2,14 +2,21 @@
 
 namespace Filmoteca\StaticPages;
 
-use Filmoteca\StaticPages\Models\StaticPage\StaticPageInterface;
+use Config;
+use Filmoteca\StaticPages\Factories\PagesTreeFactory;
+use Filmoteca\StaticPages\Models\Menu;
 use Filmoteca\StaticPages\Models\StaticPage\StaticPageProviderInterface;
 use Filmoteca\StaticPages\Repositories\MenusRepository\MenusRepositoryInterface;
-use Config;
-use Filmoteca\StaticPages\Types\NodeInterface;
 use Illuminate\Support\Collection;
+use Input;
+use Lang;
+use Redirect;
 use View;
 
+/**
+ * Class MenusController
+ * @package Filmoteca\StaticPages
+ */
 class MenusController extends BaseController
 {
     /**
@@ -22,18 +29,28 @@ class MenusController extends BaseController
      */
     protected $pageProvider;
 
+
+    /**
+     * @param MenusRepositoryInterface $repository
+     * @param StaticPageProviderInterface $pageProvider
+     */
     public function __construct(
         MenusRepositoryInterface $repository,
-        StaticPageProviderInterface  $pageProvider
+        StaticPageProviderInterface $pageProvider
     ) {
-        $this->repository = $repository;
-        $this->pageProvider = $pageProvider;
+        $this->repository       = $repository;
+        $this->pageProvider     = $pageProvider;
     }
 
+    /**
+     * @param null $menu
+     * @return mixed
+     */
     public function create($menu = null)
     {
-        $pages  = $this->getLeavesTree();
-        $data   = compact('menu', 'pages');
+        $pages      = $this->pageProvider->findAll();
+        $pagesTree  = PagesTreeFactory::create($pages);
+        $data       = compact('menu', 'pagesTree');
 
         return View::make(self::PACKAGE_NAME . '::menus.create', $data);
     }
@@ -52,62 +69,5 @@ class MenusController extends BaseController
                 $successfulMessage
             )
             ->withInput(['menu' => $menu]);
-    }
-
-    protected function getLeavesTree()
-    {
-        $tree   = new \Filmoteca\StaticPages\Types\Node();
-
-        $pages = $this->pageProvider->findAll()->groupBy(function (StaticPageInterface $page) {
-            return $page->hasParent()? 'children' : 'parents';
-        });
-
-        $parents = new Collection($pages->get('parents'));
-        $parents->each(function (StaticPageInterface $page) use ($tree) {
-            $node = new \Filmoteca\StaticPages\Types\Node();
-            $node->setId($page->getId());
-            $node->setContent($page);
-
-            $tree->addChild($node);
-        });
-
-        $this->insertChildren($tree, new Collection($pages->get('children')));
-
-        return $tree;
-    }
-
-    /**
-     * @param NodeInterface $tree
-     * @param Collection $children
-     * @return NodeInterface
-     */
-    protected function insertChildren(NodeInterface $tree, Collection $children)
-    {
-        if (count($children) === 0) {
-            return $tree;
-        }
-
-        $withoutParent = $children
-            ->reduce(function (Collection $withoutParent, StaticPageInterface $child) use ($tree) {
-                $parent = $tree->findNode($child->getParentId());
-
-                if ($parent !== null) {
-                    $node = new \Filmoteca\StaticPages\Types\Node();
-                    $node->setId($child->getId());
-                    $node->setContent($child);
-
-                    $parent->addChild($node);
-                } else {
-                    $withoutParent->push($child);
-                }
-
-                return $withoutParent;
-            }, new Collection([]));
-
-        if ($children->count() === $withoutParent->count()) {
-            return $tree;
-        }
-
-        return $this->insertChildren($tree, $withoutParent);
     }
 }

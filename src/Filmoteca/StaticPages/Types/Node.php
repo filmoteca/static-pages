@@ -100,6 +100,7 @@ class Node implements NodeInterface
     }
 
     /**
+     * Searches First in Depth
      * @param $id
      * @param int $maxDepth
      * @return NodeInterface|null
@@ -117,9 +118,15 @@ class Node implements NodeInterface
             if ($child->getId() === $id) {
                 return $child;
             }
+
+            $descendant = $child->findNode($id, $maxDepth - 1);
+
+            if ($descendant !== null) {
+                return $descendant;
+            }
         }
 
-        return $this->findNode($id, $maxDepth - 1);
+        return null;
     }
 
     /**

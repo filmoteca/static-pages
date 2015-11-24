@@ -13,7 +13,7 @@ class StaticPagesTableSeed extends Seeder
     public function run()
     {
         $tableName  = 'filmoteca_static_pages';
-        $amount     = pow(10, 2);
+        $amount     = pow(10, 1);
         $faker      = Factory::create('es_ES');
         $staticPages = [];
 

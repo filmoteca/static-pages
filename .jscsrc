@@ -1,0 +1,12 @@
+{
+    "preset": "google",
+
+    "maximumLineLength": 120,
+    "validateLineBreaks": "LF",
+    "validateIndentation": 4,
+    "disallowTrailingComma": true,
+    "disallowUnusedParams": true,
+    "disallowSpacesInFunctionExpression": false,
+    "disallowSpacesInAnonymousFunctionExpression": false,
+    "disallowTrailingWhitespace": true
+}

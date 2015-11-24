@@ -23,10 +23,10 @@ Form::macro('staticPagesTree', function (NodeInterface $tree) {
 
     $leaves = $tree->getChildren();
 
-    $result = '<ul>';
+    $result = '<ul class="pages">';
 
     foreach ($leaves as $leaf) {
-        $item = '<li>';
+        $item = '<li class="page">';
 
         $page = $leaf->getContent();
 
@@ -35,7 +35,9 @@ Form::macro('staticPagesTree', function (NodeInterface $tree) {
         }
 
         $item .= Form::checkbox('page-' . $page->getId(), $page->getId());
-        $item .= $page->getTitle();
+        $item .= '<span class="title">' . $page->getTitle() . '</span>';
+        $item .= '<span class="slug">' . $page->getSlug() . '</span>';
+        $item .= '<span class="id">' . $page->getSlug() . '</span>';
 
         $item .= Form::staticPagesTree($leaf);
 

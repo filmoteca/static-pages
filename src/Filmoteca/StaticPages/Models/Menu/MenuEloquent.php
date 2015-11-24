@@ -7,8 +7,9 @@ use Illuminate\Support\Collection;
 
 /**
  * Class Menu
- * @property int    id
- * @property string name
+ * @property int        id
+ * @property string     name
+ * @property Collection entries
  * @package Filmoteca\StaticPages\Models
  */
 class MenuEloquent extends Eloquent implements MenuInterface
@@ -26,14 +27,14 @@ class MenuEloquent extends Eloquent implements MenuInterface
     /**
      * @var string
      */
-    protected $menuEntryModel = '\Filmoteca\StaticPages\Models\MenuEntry';
+    protected $menuEntryModel = '\Filmoteca\StaticPages\Models\Menu\MenuEntryEloquent';
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function entries()
     {
-        return $this->hasMany($this->menuEntryModel);
+        return $this->hasMany($this->menuEntryModel, 'menu_id');
     }
 
     /**
@@ -53,7 +54,7 @@ class MenuEloquent extends Eloquent implements MenuInterface
     }
 
     /**
-     *
+     * @return string
      */
     public function getName()
     {
@@ -68,11 +69,17 @@ class MenuEloquent extends Eloquent implements MenuInterface
         $this->name = $name;
     }
 
+    /**
+     * @return Collection
+     */
     public function getEntries()
     {
-        return $this->entries()->get();
+        return $this->entries;
     }
 
+    /***
+     * @param Collection $menuEntries
+     */
     public function setEntries(Collection $menuEntries)
     {
         $menuEntries->each(function (MenuEntryInterface$menuEntry) {

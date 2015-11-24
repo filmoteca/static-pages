@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class MenuEntry
+ * @property int        id
+ * @property string     url
+ * @property string     label
+ * @property int        menu_id
+ * @property int        position
  * @package Filmoteca\StaticPages\Models\Menu
  */
 class MenuEntryEloquent extends Eloquent implements MenuEntryInterface
@@ -18,12 +23,12 @@ class MenuEntryEloquent extends Eloquent implements MenuEntryInterface
     /**
      * @var string
      */
-    protected $menuModel = '\Filmoteca\StaticPages\Models\Menu';
+    protected $menuModel = '\Filmoteca\StaticPages\Models\Menu\Menu';
 
     /**
      * @var array
      */
-    protected $fillable = ['url', 'label', 'menu_id'];
+    protected $fillable = ['url', 'label', 'position', 'menu_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -67,7 +72,7 @@ class MenuEntryEloquent extends Eloquent implements MenuEntryInterface
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getLabel()
     {
@@ -80,5 +85,21 @@ class MenuEntryEloquent extends Eloquent implements MenuEntryInterface
     public function setLabel($label)
     {
         $this->label = $label;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * @param int $position
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
     }
 }

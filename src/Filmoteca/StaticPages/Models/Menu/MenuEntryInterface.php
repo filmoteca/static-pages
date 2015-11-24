@@ -37,4 +37,14 @@ interface MenuEntryInterface
      * @param string $label
      */
     public function setLabel($label);
+
+    /**
+     * @return int
+     */
+    public function getPosition();
+
+    /**
+     * @param int $position
+     */
+    public function setPosition($position);
 }

@@ -4,7 +4,6 @@ namespace Filmoteca\StaticPages\Repositories\MenusRepository;
 
 use Filmoteca\StaticPages\Models\Menu\MenuEloquent as Menu;
 use Filmoteca\StaticPages\Models\Menu\MenuEntryEloquent as MenuEntry;
-use Input;
 
 /**
  * Class MenusEloquentRepository
@@ -18,12 +17,17 @@ class MenusEloquentRepository implements MenusRepositoryInterface
      */
     public function store(array $rawMenu)
     {
-        $menu = Menu::findOrNew(Input::get('id'));
-        $menu->name = Input::get('name', '');
+        $menu = Menu::findOrNew(isset($rawMenu['id'])?$rawMenu['id']: null);
+        $menu->name = isset($rawMenu['name'])? $rawMenu['name']: '';
         $menu->save();
 
-        if (Input::has('entries')) {
-            $this->saveEntries($menu, Input::get('entries'));
+        $menu->entries->each(function ($entry) {
+            $entry->delete();
+        });
+
+        if (isset($rawMenu['entries'])) {
+            $entries = $this->uniqueEntries($rawMenu['entries']);
+            $this->saveEntries($menu, $entries);
         }
 
         return $menu;
@@ -55,7 +59,10 @@ class MenusEloquentRepository implements MenusRepositoryInterface
     {
         $menuEntries = array_reduce($entries, function ($menuEntries, $entry) {
 
-            $menuEntry = MenuEntry::firstOrCreate(['url' => $entry['url'], 'label' => $entry['label']]);
+            $menuEntry = MenuEntry::firstOrNew([
+                'url' => $entry['url'],
+                'label' => $entry['label']
+            ]);
 
             $menuEntries[] = $menuEntry;
 
@@ -65,5 +72,36 @@ class MenusEloquentRepository implements MenusRepositoryInterface
         $menu->entries()->saveMany($menuEntries);
 
         return $menu;
+    }
+
+    protected function uniqueEntries(array $entries)
+    {
+        $uniqueEntries = array_reduce($entries, function ($uniqueEntries, $entryToInsert) {
+
+            if (!$this->isInEntries($uniqueEntries, $entryToInsert)) {
+                $uniqueEntries[] = $entryToInsert;
+            }
+
+            return $uniqueEntries;
+        }, []);
+
+        return $uniqueEntries;
+    }
+
+    /**
+     * @param array $entries
+     * @param array $entryToInsert
+     * @return bool
+     */
+    protected function isInEntries(array $entries, array $entryToInsert)
+    {
+        $repeatEntry = array_filter($entries, function ($uniqueEntry) use ($entryToInsert) {
+            $label  = $uniqueEntry['label'] !== $entryToInsert['label'];
+            $url    = $uniqueEntry['url'] !== $entryToInsert['url'];
+
+            return $label && $url;
+        });
+
+        return !empty($repeatEntry);
     }
 }

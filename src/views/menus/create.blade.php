@@ -6,11 +6,13 @@
 
 @section('content')
 
-    @if ($menu === null)
-        {{ Form::open(['action' => 'Filmoteca\StaticPages\MenusController@store']) }}
-    @else
-        {{ Form::model($menu, ['action' => 'Filmoteca\StaticPages\MenusController@update']) }}
-    @endif
+    {{-- With this style we archivement to do not hardcode text inside of the control to delete the a entry. --}}
+    <style>
+        .delete:after {
+            content: '@lang('filmoteca/static-pages::general.delete')';
+            display: block;
+        }
+    </style>
 
     <div class="row">
         <div class="col-sm-4">
@@ -43,18 +45,19 @@
                     <div id="links" class="panel-collapse collapse in" role="tabpanel">
                         <div class="panel-body">
                             <div class="form-group">
-                                <label for="link" class="control-label">
+                                <label for="link-value" class="control-label">
                                     @lang('filmoteca/static-pages::general.link')
                                 </label>
-                                <input name="link" type="text" class="form-control" id="link">
+                                <input name="link" type="text" class="form-control" id="link-value"
+                                        placeholder="http://www.google.com.mx">
                             </div>
                             <div class="form-group">
-                                <label for="url" class="control-label">
+                                <label for="link-label" class="control-label">
                                     @lang('filmoteca/static-pages::general.label')
                                 </label>
-                                <input name="url" type="text" class="form-control" id="label-link">
+                                <input name="label" type="text" class="form-control" id="link-label">
                             </div>
-                            <button class="add-pages">
+                            <button class="add-link">
                                 @lang('filmoteca/static-pages::menus.add-link')
                             </button>
                         </div>
@@ -63,23 +66,49 @@
             </div>
         </div>
         <div class="col-sm-8">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Menu name</label>
-                        <input class="form-control" type="text" name="name" id="name">
-                        <input type="submit" value="@lang('filmoteca/static-pages::general.create')">
+            <form name="menu-creation-form">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="form-group">
+                            <label for="name" class="control-label">@lang('filmoteca/static-pages::menus.menu-name')</label>
+                            <input class="form-control" type="text" name="name" id="name"
+                                   value="{{ $menu === null? '': $menu->name }}">
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <h2>@lang('filmoteca/static-pages::menus.menu-structure')</h2>
+                        <p>@lang('filmoteca/static-pages::menus.sort-instructions')</p>
+                        <ul class="menu-entries list-group">
+                            @if ($menu !== null)
+                                @foreach ($menu->getEntries() as $entry)
+                                    <li class="menu-entry list-group-item sortable">
+                                        <p class="label">{{ $entry->label }}</p>
+                                        <small class="url">{{ $entry->url }}</small>
+                                        <p><a class="text-danger delete" href="#"></a></p>
+                                    </li>
+                                @endforeach
+                            @endif
+                        </ul>
+                    </div>
+                    <div class="panel-footer">
+                        @if ($menu === null)
+                            <input type="submit" value="@lang('filmoteca/static-pages::general.create')">
+                        @else
+                            <input type="submit" value="@lang('filmoteca/static-pages::general.update')">
+                        @endif
                     </div>
                 </div>
-                <div class="panel-body">
-                    <h2>@lang('filmoteca/static-pages::menus.menu-structure')</h2>
-                </div>
-                <div class="panel-footer">
-                    <input type="submit" value="@lang('filmoteca/static-pages::general.create')">
-                </div>
-            </div>
+            </form>
         </div>
-    </div>
 
-    {{ Form::close() }}
+        {{-- The real form to send--}}
+        @if ($menu === null)
+            {{ Form::open(['action' => 'Filmoteca\StaticPages\MenusController@store', 'name' => 'menu-form']) }}
+        @else
+            {{ Form::model($menu, ['action' => 'Filmoteca\StaticPages\MenusController@store', 'name' => 'menu-form']) }}
+            {{ Form::hidden('id', $menu->id) }}
+        @endif
+
+        {{ Form::close() }}
+    </div>
 @stop

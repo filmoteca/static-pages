@@ -4,7 +4,8 @@ namespace Filmoteca\StaticPages;
 
 use Config;
 use Filmoteca\StaticPages\Factories\PagesTreeFactory;
-use Filmoteca\StaticPages\Models\Menu;
+use Filmoteca\StaticPages\Models\Menu\MenuEloquent;
+use Filmoteca\StaticPages\Models\Menu\MenuInterface;
 use Filmoteca\StaticPages\Models\StaticPage\StaticPageProviderInterface;
 use Filmoteca\StaticPages\Repositories\MenusRepository\MenusRepositoryInterface;
 use Illuminate\Support\Collection;
@@ -43,14 +44,14 @@ class MenusController extends BaseController
     }
 
     /**
-     * @param null $menu
+     * @param MenuInterface $menu
      * @return mixed
      */
-    public function create($menu = null)
+    public function create(MenuInterface $menu = null)
     {
-        $pages      = $this->pageProvider->findAll();
-        $pagesTree  = PagesTreeFactory::create($pages);
-        $data       = compact('menu', 'pagesTree');
+        $pages          = $this->pageProvider->findAll();
+        $pagesTree      = PagesTreeFactory::create($pages);
+        $data           = compact('menu', 'pagesTree');
 
         return View::make(self::PACKAGE_NAME . '::menus.create', $data);
     }

@@ -1,13 +1,18 @@
 # Static Pages
 
+A packages to Laravel 4 to create static pages and menus to this static pages. It has a interface similar to the 
+WordPress' pages and menus creator.
+
 ## The project use
 
 * Eloquent as ORM.
 * [PHPCodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) with the standard PSR2 to code style.
-* Composer to manger the packages
-* Unit Test
+* Composer to manger the packages.
+* Unit Test.
+* [JSCS](http://jscs.info/) to Javascript Code Style.
+* [JSHint](http://jshint.com/docs/) to Javascript quality tool.
 
-#Instalation
+##Instalation
 
 You need add the services provider to you `app/config/app.php`
 
@@ -18,13 +23,13 @@ You need add the services provider to you `app/config/app.php`
 And replace the service provider
 
 ```php
-'Devitek\Core\Translation\TranslationServiceProvider',
+'Illuminate\Translation\TranslationServiceProvider',
 ```
 
 with
 
 ```php
-'Illuminate\Translation\TranslationServiceProvider'
+'Devitek\Core\Translation\TranslationServiceProvider',
 ```
 
 Export the assets

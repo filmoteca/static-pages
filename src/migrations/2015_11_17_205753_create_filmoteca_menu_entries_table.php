@@ -16,10 +16,11 @@ class CreateFilmotecaMenuEntriesTable extends Migration
             $table->increments('id');
             $table->string('label')->nullable(false);
             $table->string('url')->nullable(false);
+            $table->integer('position', false, true)->default(0);
             $table->integer('menu_id', false, true);
             $table->timestamps();
 
-            $table->unique(['label', 'url']);
+            $table->unique(['label', 'url', 'menu_id']);
 
             $table->foreign('menu_id')
                 ->references('id')

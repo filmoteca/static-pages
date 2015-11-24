@@ -1,31 +1,26 @@
 @extends('filmoteca/static-pages::layouts.default')
 
-@section('title')
-    @lang('filmoteca/static-pages::menus.title')
-@endsection
-
 @section('content')
 
-    {{ $pages->links() }}
+    {{ $menus->links() }}
 
     <table class="table table-condensed table-bordered">
         <thead>
-        @include('filmoteca/static-pages::static-pages.partials.table-titles')
+        @include('filmoteca/static-pages::menus.partials.table-titles')
         </thead>
         <tbody>
-        @foreach ($pages as $index => $page)
+        @foreach ($menus as $index => $menu)
             <tr class="{{ $index % 2 === 0? 'active': '' }}">
-                <td>{{ $page->id }}</td>
-                <td>{{ $page->title }}</td>
-                <td>{{ $page->status }}</td>
-                <td>{{ $page->created_at }}</td>
-                <td>{{ $page->updated_at }}</td>
+                <td>{{ $menu->id }}</td>
+                <td>{{ $menu->name }}</td>
+                <td>{{ $menu->created_at }}</td>
+                <td>{{ $menu->updated_at }}</td>
                 <td>
-                    {{ Form::open(['action' => ['Filmoteca\StaticPages\StaticPagesController@destroy', $page->id], 'method'=> 'DELETE']) }}
+                    {{ Form::open(['action' => ['Filmoteca\StaticPages\MenusController@destroy', $menu->id], 'method'=> 'DELETE']) }}
                     <button class="btn btn-danger" type="submit">@lang('filmoteca/static-pages::general.delete')</button>
                     {{ Form::close() }}
 
-                    <a class="btn btn-info" href="{{ URL::action('Filmoteca\StaticPages\StaticPagesController@edit', ['id' => $page->id]) }}">
+                    <a class="btn btn-info" href="{{ URL::action('Filmoteca\StaticPages\MenusController@edit', ['id' => $menu->id]) }}">
                         @lang('filmoteca/static-pages::general.edit')
                     </a>
                 </td>
@@ -33,10 +28,10 @@
         @endforeach
         </tbody>
         <tfoot>
-        @include('filmoteca/static-pages::static-pages.partials.table-titles')
+        @include('filmoteca/static-pages::menus.partials.table-titles')
         </tfoot>
     </table>
 
-    {{ $pages->links() }}
+    {{ $menus->links() }}
 
 @endsection

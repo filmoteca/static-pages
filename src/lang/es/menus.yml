@@ -1,5 +1,6 @@
-stored: Menu guardado.
-updated: Menu actualizado.
+stored: Menú guardado.
+updated: Menú actualizado.
+deleted: Menú eliminado.
 menu-structure: Estructura del menú
 add-selected-pages: Agregar páginas seleccionadas
 title: Creación del menú
@@ -7,3 +8,4 @@ add-link: Agregar enlace
 sort-instructions: Puedes arrastrar las entradas del menú para ordenarlas.
 menu-name: Nombre del menú
 menu-name-description: Éste nombre sirve solo para identificar el menú, el usuario final no lo podra ver.
+not-exists: El menú no existe.

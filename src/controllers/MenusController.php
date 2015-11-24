@@ -43,6 +43,13 @@ class MenusController extends BaseController
         $this->pageProvider     = $pageProvider;
     }
 
+    public function index()
+    {
+        $menus = $this->repository->paginate();
+
+        return View::make(self::PACKAGE_NAME . '::menus.index', compact('menus'));
+    }
+
     /**
      * @param MenuInterface $menu
      * @return mixed
@@ -70,5 +77,34 @@ class MenusController extends BaseController
                 $successfulMessage
             )
             ->withInput(['menu' => $menu]);
+    }
+
+    public function edit($id)
+    {
+        $menu = $this->repository->findById($id);
+
+        if ($menu === null) {
+            return Redirect::action(get_class($this) . '@index')
+                ->with(
+                    'warning',
+                    Lang::get('filmoteca/static-pages::menus.not-exists')
+                );
+        }
+
+        return $this->create($menu);
+    }
+
+    /**
+     * @param $id
+     */
+    public function destroy($id)
+    {
+        $this->repository->destroy($id);
+
+        return Redirect::action(get_class($this) . '@index')
+            ->with(
+                'success',
+                Lang::get('filmoteca/static-pages::menus.deleted')
+            );
     }
 }

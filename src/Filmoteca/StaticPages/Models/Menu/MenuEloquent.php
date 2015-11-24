@@ -74,7 +74,7 @@ class MenuEloquent extends Eloquent implements MenuInterface
      */
     public function getEntries()
     {
-        return $this->entries;
+        return $this->entries->sortBy('position');
     }
 
     /***

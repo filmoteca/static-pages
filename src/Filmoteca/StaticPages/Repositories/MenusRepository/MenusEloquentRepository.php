@@ -36,26 +36,48 @@ class MenusEloquentRepository implements MenusRepositoryInterface
     /**
      * @param int $id
      * @param array $rawMenu
+     * @return \Filmoteca\StaticPages\Models\Menu\MenuInterface
      */
     public function update($id, array $rawMenu)
     {
-        // TODO: Implement update() method.
+        $rawMenu['id'] = $id;
+
+        return $this->store($rawMenu);
     }
 
     /**
      * @param int $id
+     * @return \Filmoteca\StaticPages\Models\Menu\MenuInterface
      */
     public function destroy($id)
     {
-        // TODO: Implement destroy() method.
+        $menu = Menu::findOrFail($id);
+
+        $menu->delete();
+
+        return $menu;
+    }
+
+    /**
+     * @param int $amount
+     * @return mixed
+     */
+    public function paginate($amount = MenusRepositoryInterface::DEFAULT_AMOUNT)
+    {
+        return Menu::paginate($amount);
+    }
+
+    public function findById($id)
+    {
+        return Menu::find($id);
     }
 
     /**
      * @param $menu
      * @param array $entries
-     * @return mixed
+     * @return \Filmoteca\StaticPages\Models\Menu\MenuInterface
      */
-    protected function saveEntries($menu, array $entries)
+    protected function saveEntries(Menu $menu, array $entries)
     {
         $menuEntries = array_reduce($entries, function ($menuEntries, $entry) {
 
@@ -74,6 +96,10 @@ class MenusEloquentRepository implements MenusRepositoryInterface
         return $menu;
     }
 
+    /**
+     * @param array $entries
+     * @return array
+     */
     protected function uniqueEntries(array $entries)
     {
         $uniqueEntries = array_reduce($entries, function ($uniqueEntries, $entryToInsert) {
@@ -95,13 +121,13 @@ class MenusEloquentRepository implements MenusRepositoryInterface
      */
     protected function isInEntries(array $entries, array $entryToInsert)
     {
-        $repeatEntry = array_filter($entries, function ($uniqueEntry) use ($entryToInsert) {
-            $label  = $uniqueEntry['label'] !== $entryToInsert['label'];
-            $url    = $uniqueEntry['url'] !== $entryToInsert['url'];
+        $repeatEntries = array_filter($entries, function ($uniqueEntry) use ($entryToInsert) {
+            $label  = $uniqueEntry['label'] === $entryToInsert['label'];
+            $url    = $uniqueEntry['url'] === $entryToInsert['url'];
 
             return $label && $url;
         });
 
-        return !empty($repeatEntry);
+        return !empty($repeatEntries);
     }
 }

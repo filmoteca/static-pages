@@ -8,6 +8,8 @@ namespace Filmoteca\StaticPages\Repositories\MenusRepository;
  */
 interface MenusRepositoryInterface
 {
+    const DEFAULT_AMOUNT = 15;
+
     /**
      * @param array $rawMenu
      * @return \Filmoteca\StaticPages\Models\Menu\MenuInterface
@@ -26,4 +28,16 @@ interface MenusRepositoryInterface
      * @return \Filmoteca\StaticPages\Models\Menu\MenuInterface
      */
     public function destroy($id);
+
+    /**
+     * @param int $amount
+     * @return mixed
+     */
+    public function paginate($amount = self::DEFAULT_AMOUNT);
+
+    /**
+     * @param int $id
+     * @return \Filmoteca\StaticPages\Models\Menu\MenuInterface
+     */
+    public function findById($id);
 }

@@ -36,6 +36,12 @@ ul.pages {
     padding-left: 10px
 }
 
+ul.pages .page .slug,
+ul.pages .page .id,
+ul.pages .page .url {
+    display: none;
+}
+
 .selected {
     background-color: #F9F9F9;
 }

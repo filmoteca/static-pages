@@ -1,4 +1,4 @@
-/* globals $ */
+/* globals $, baseUrl */
 
 /**
  * Menu Creator
@@ -33,16 +33,16 @@
 
         this.menuEntryTemplate =
             '<li class="menu-entry list-group-item">' +
-            '<div class="content">' +
-            '<p class="label">{{ title }}</p>' +
-            '<small class="url">{{ url }}</small>' +
-            '<p>' +
-            '<a href="#" class="text-danger delete"></a>' +
-            '<a href="#" class="text-info select"></a>' +
-            '</p>' +
-            '</div>' +
-            '<ul class="menu-entries list-group-item" >' +
-            '</ul>' +
+                '<div class="content">' +
+                    '<p class="label">{{ title }}</p>' +
+                    '<small class="url">{{ url }}</small>' +
+                    '<p>' +
+                        '<a href="#" class="text-danger delete"></a>' +
+                        '<a href="#" class="text-info select"></a>' +
+                    '</p>' +
+                '</div>' +
+                '<ul class="menu-entries list-group-item" >' +
+                '</ul>' +
             '</li>';
         this.menuEntries = menuEntries;
     };
@@ -98,7 +98,7 @@
      * Main
      *************************************************************************/
 
-    var menu            = new Menu($menuEntries);
+    var menu = new Menu($menuEntries);
 
     /**************************************************************************
      * Controls
@@ -121,7 +121,7 @@
 
                 var data = {
                     title: $this.siblings('.title').text(),
-                    url: window.location.host + '/' + $this.siblings('.slug').text()
+                    url: baseUrl + '/' + $this.siblings('.slug').text()
                 };
 
                 menu.addEntry(data);

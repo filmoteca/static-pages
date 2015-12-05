@@ -16,6 +16,10 @@
         }
     </style>
 
+    <script>
+        var baseUrl = "{{ '//' . Request::getHost() . '/' . Config::get('filmoteca/static-pages::pages-url-prefix') }}";
+    </script>
+
     <div class="row">
         <div class="col-sm-4">
             <div class="panel-group well" role="tablist" id="available-items">

@@ -38,7 +38,12 @@ Form::macro('staticPagesTree', function (NodeInterface $tree) {
         $item .= Form::checkbox('page-' . $page->getId(), $page->getId());
         $item .= '<span class="title">' . $page->getTitle() . '</span>';
         $item .= '<span class="slug">' . $page->getSlug() . '</span>';
-        $item .= '<span class="id">' . $page->getSlug() . '</span>';
+        $item .= '<span class="url">//' .
+            Request::getHost() . '/' .
+            Config::get('filmoteca/static-pages::pages-url-prefix') . '/' .
+            $page->getSlug() .
+            '</span>';
+        $item .= '<span class="id">' . $page->getId() . '</span>';
 
         $item .= Form::staticPagesTree($leaf);
 
@@ -63,10 +68,14 @@ Form::macro('siblingsPages', function (StaticPageInterface $currentPage) {
         ->getChildPages()
         ->reduce(function ($listItems, StaticPageInterface $childPage) use ($currentPage) {
 
-            $class = $currentPage->getId() === $childPage->getId()? 'current': '';
+            $class  = $currentPage->getId() === $childPage->getId()? 'current': '';
+            $url    = '//' .
+                Request::getHost() . '/' .
+                Config::get('filmoteca/static-pages::pages-url-prefix') . '/' .
+                $currentPage->getSlug();
 
             $listItems .= "<li class=\"$class\">";
-            $listItems .= HTML::link($childPage->getSlug(), $childPage->getTitle());
+            $listItems .= HTML::link($url, $childPage->getTitle());
             $listItems .= '</li>';
 
             return $listItems;

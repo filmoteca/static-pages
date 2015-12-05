@@ -85,15 +85,16 @@
                             <ul class="menu-entries list-group">
                                 @if ($menu !== null)
                                     @foreach ($menu->getEntries() as $entry)
-                                        <li class="menu-entry list-group-item sortable">
+                                        <li class="menu-entry list-group-item">
                                             <div class="content">
                                                 <p class="label">{{ $entry->label }}</p>
                                                 <small class="url">{{ $entry->url }}</small>
-                                                <a class="text-danger delete" href="#"></a>
+                                                <p>
+                                                    <a class="text-danger delete" href="#"></a>
+                                                    <a class="text-info info" href="#"></a>
+                                                </p>
                                             </div>
-                                            <ul class="menu-entries list-group">
-
-                                            </ul>
+                                            <ul class="menu-entries list-group"></ul>
                                         </li>
                                     @endforeach
                                 @endif

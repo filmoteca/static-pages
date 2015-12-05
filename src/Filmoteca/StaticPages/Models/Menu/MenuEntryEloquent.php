@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
  * @property string     label
  * @property int        menu_id
  * @property int        position
+ * @property int        super_entry_id
  * @property Collection subEntries
  * @package Filmoteca\StaticPages\Models\Menu
  */
@@ -34,7 +35,7 @@ class MenuEntryEloquent extends Eloquent implements MenuEntryInterface
     /**
      * @var array
      */
-    protected $fillable = ['url', 'label', 'position', 'menu_id'];
+    protected $fillable = ['url', 'label', 'position', 'menu_id', 'super_entry_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

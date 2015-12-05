@@ -75,26 +75,46 @@ Form::macro('siblingsPages', function (StaticPageInterface $currentPage) {
     return '<ul>' . $listItems . '</ul>';
 });
 
-Form::macro('menu', function (Collection $menuEntries = null) {
+Form::macro('menu', function (
+    Collection $menuEntries = null,
+    $menuClass = '',
+    $entryClass = '',
+    $linkClass = '',
+    $subMenuClass = '',
+    $isSubMenu = false
+) {
 
     if ($menuEntries === null) {
         return '<ul></ul>';
     }
 
-    $listItems = $menuEntries->reduce(function ($listItems, MenuEntryInterface $menuEntry) {
+    $listItems = $menuEntries->reduce(
+        function ($listItems, MenuEntryInterface $menuEntry) use ($entryClass, $linkClass, $menuClass, $subMenuClass) {
 
-        $listItems .= '<li>';
-        $listItems .= HTML::link($menuEntry->getUrl(), $menuEntry->getLabel());
+            $listItems .= "<li class=\"$entryClass\">";
+            $listItems .= HTML::link($menuEntry->getUrl(), $menuEntry->getLabel(), ['class' => $linkClass]);
 
-        if ($menuEntry->hasSubEntries()) {
-            $listItems .= Form::menu($menuEntry->getSubEntries());
-        }
+            if ($menuEntry->hasSubEntries()) {
+                $listItems .= Form::menu(
+                    $menuEntry->getSubEntries(),
+                    $menuClass,
+                    $entryClass,
+                    $linkClass,
+                    $subMenuClass,
+                    true
+                );
+            }
 
-        $listItems .= '</li>';
+            $listItems .= '</li>';
 
-        return $listItems;
-    }, '');
+            return $listItems;
+        },
+        ''
+    );
 
+    if ($isSubMenu) {
+        $menuClass = $subMenuClass;
+    }
 
-    return '<ul>' . $listItems . '</ul>';
+    return "<ul class=\"$menuClass\">" . $listItems . '</ul>';
 });

@@ -12,7 +12,7 @@ WordPress' pages and menus creator.
 * [JSCS](http://jscs.info/) to Javascript Code Style.
 * [JSHint](http://jshint.com/docs/) to Javascript quality tool.
 
-##Instalation
+##Installation
 
 You need add the services provider to you `app/config/app.php`
 

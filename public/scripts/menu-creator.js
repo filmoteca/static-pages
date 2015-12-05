@@ -170,6 +170,27 @@
      * Forms
      *************************************************************************/
 
+    var addEntries = function ($entries, menuForm, level) {
+
+        $entries.children('.menu-entry').each(function (index, entry) {
+
+            var $entry      = $(entry);
+            var label       = $entry.find('.label').text();
+            var url         = $entry.find('.url').text();
+            var parentName  = level + '[' + index + ']';
+
+            menuForm.addInput(parentName + '[position]', index);
+            menuForm.addInput(parentName + '[label]', label);
+            menuForm.addInput(parentName + '[url]', url);
+
+            addEntries(
+                $entry.children('.menu-entries'),
+                menuForm,
+                parentName + '[subEntries]'
+            );
+        });
+    };
+
     $(document.forms['menu-creation-form']).submit(function (event) {
 
         event.preventDefault({
@@ -184,18 +205,11 @@
 
         menuForm.addInput('name', menuName );
 
-        $menuEntries
-            .find('.menu-entry')
-            .each(function (index, entry) {
-
-            var $entry  = $(entry);
-            var label   = $entry.find('.label').text();
-            var url     = $entry.find('.url').text();
-
-            menuForm.addInput('entries[' + index + '][position]', index);
-            menuForm.addInput('entries[' + index + '][label]', label);
-            menuForm.addInput('entries[' + index + '][url]', url);
-        });
+        addEntries(
+            $menuContainer.children('.menu-entries'),
+            menuForm,
+            'entries'
+        );
 
         menuForm.submit();
     });

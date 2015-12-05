@@ -40,9 +40,13 @@ class StaticPageProvider implements StaticPageProviderInterface
         return $this->createModel()->newQuery()->find($id);
     }
 
+    /**
+     * @param string $slug
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
     public function findBySlug($slug)
     {
-        return $this->createModel()->newQuery()->where('slug', $slug)->get();
+        return $this->createModel()->newQuery()->where('slug', $slug)->get()->first();
     }
 
     /**

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
  * @property string     label
  * @property int        menu_id
  * @property int        position
+ * @property Collection subEntries
  * @package Filmoteca\StaticPages\Models\Menu
  */
 class MenuEntryEloquent extends Eloquent implements MenuEntryInterface
@@ -23,7 +24,12 @@ class MenuEntryEloquent extends Eloquent implements MenuEntryInterface
     /**
      * @var string
      */
-    protected $menuModel = '\Filmoteca\StaticPages\Models\Menu\Menu';
+    protected static $menuModel = '\Filmoteca\StaticPages\Models\Menu\Menu';
+
+    /**
+     * @var string
+     */
+    protected static $subEntryModel = '\Filmoteca\StaticPages\Models\Menu\MenuEntryEloquent';
 
     /**
      * @var array
@@ -35,7 +41,23 @@ class MenuEntryEloquent extends Eloquent implements MenuEntryInterface
      */
     protected function menu()
     {
-        return $this->belongsTo($this->menuModel);
+        return $this->belongsTo(static::$menuModel);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function superEntry()
+    {
+        return $this->belongsTo(static::$subEntryModel);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    protected function subEntries()
+    {
+        return $this->hasMany(static::$subEntryModel, 'super_entry_id', 'id');
     }
 
     /**
@@ -101,5 +123,29 @@ class MenuEntryEloquent extends Eloquent implements MenuEntryInterface
     public function setPosition($position)
     {
         $this->position = $position;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getSubEntries()
+    {
+        return $this->subEntries;
+    }
+
+    /**
+     * @param Collection $subEntries
+     */
+    public function setSubEntries(Collection $subEntries)
+    {
+        $this->subEntries = $subEntries;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasSubEntries()
+    {
+        return !$this->getSubEntries()->isEmpty();
     }
 }

@@ -73,6 +73,15 @@ class MenusEloquentRepository implements MenusRepositoryInterface
     }
 
     /**
+     * @param string $name
+     * @return \Filmoteca\StaticPages\Models\Menu\MenuInterface
+     */
+    public function findByName($name)
+    {
+        return Menu::where('name', $name)->get()->first();
+    }
+
+    /**
      * @param $menu
      * @param array $entries
      * @return \Filmoteca\StaticPages\Models\Menu\MenuInterface

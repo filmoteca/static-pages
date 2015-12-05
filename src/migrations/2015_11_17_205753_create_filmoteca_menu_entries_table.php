@@ -17,7 +17,8 @@ class CreateFilmotecaMenuEntriesTable extends Migration
             $table->string('label')->nullable(false);
             $table->string('url')->nullable(false);
             $table->integer('position', false, true)->default(0);
-            $table->integer('menu_id', false, true);
+            $table->integer('menu_id', false, true)->nullable(true);
+            $table->integer('super_entry_id', false, true)->nullable(true);
             $table->timestamps();
 
             $table->unique(['label', 'url', 'menu_id']);
@@ -25,6 +26,11 @@ class CreateFilmotecaMenuEntriesTable extends Migration
             $table->foreign('menu_id')
                 ->references('id')
                 ->on('filmoteca_menus')
+                ->onDelete('cascade');
+
+            $table->foreign('super_entry_id')
+                ->references('id')
+                ->on('filmoteca_menu_entries')
                 ->onDelete('cascade');
         });
     }

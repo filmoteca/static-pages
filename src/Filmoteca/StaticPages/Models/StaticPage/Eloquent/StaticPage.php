@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
  * @property string     status
  * @property string     slug
  * @property int        parent_page_id
+ * @property StaticPage parentPage
  * @property mixed      childPages
  * @package Filmoteca\StaticPages\Models
  */
@@ -94,7 +95,7 @@ class StaticPage extends Eloquent implements StaticPageInterface
      */
     public function childPages()
     {
-        return $this->hasMany(static::$childPageModel, 'parent_pages_id', 'id');
+        return $this->hasMany(static::$childPageModel, 'parent_page_id', 'id');
     }
 
     /**
@@ -210,4 +211,16 @@ class StaticPage extends Eloquent implements StaticPageInterface
     {
         $this->parent_page_id = $parentId;
     }
+
+    public function getParentPage()
+    {
+        return $this->parentPage;
+    }
+
+    public function setParentPage(StaticPageInterface $parent)
+    {
+        $this->parentPage()->save($parent);
+    }
+
+
 }

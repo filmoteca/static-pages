@@ -35,6 +35,11 @@ interface StaticPageInterface
     public function getParentId();
 
     /**
+     * @return StaticPageInterface
+     */
+    public function getParentPage();
+
+    /**
      * @param int $id
      * @return void
      */
@@ -69,6 +74,11 @@ interface StaticPageInterface
      * @return void
      */
     public function setParentId($parentId);
+
+    /**
+     * @param StaticPageInterface $parent
+     */
+    public function setParentPage(StaticPageInterface $parent);
 
     /**
      * @return \Illuminate\Support\Collection

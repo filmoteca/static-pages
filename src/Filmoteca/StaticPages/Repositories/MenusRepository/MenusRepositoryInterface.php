@@ -40,4 +40,10 @@ interface MenusRepositoryInterface
      * @return \Filmoteca\StaticPages\Models\Menu\MenuInterface
      */
     public function findById($id);
+
+    /**
+     * @param $name
+     * @return \Filmoteca\StaticPages\Models\Menu\MenuInterface
+     */
+    public function findByName($name);
 }

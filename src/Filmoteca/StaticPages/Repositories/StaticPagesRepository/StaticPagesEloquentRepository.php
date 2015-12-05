@@ -31,10 +31,10 @@ class StaticPagesEloquentRepository implements StaticPagesRepositoryInterface
         }
 
         $model->fill($rawStaticPage);
-        $slug   = $rawStaticPage['slug'];
-        $models = $this->provider->findBySlug($slug);
+        $slug           = $rawStaticPage['slug'];
+        $duplicatePage  = $this->provider->findBySlug($slug);
 
-        if (!$models->isEmpty() && !($edition && $models->first()->id == $model->id)) {
+        if ($duplicatePage !== null && !($edition && $duplicatePage->getId() == $model->id)) {
             throw new PageSlugExistsException('A page with the slug ' . $slug . ' already exists.');
         }
 

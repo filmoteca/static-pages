@@ -47,4 +47,18 @@ interface MenuEntryInterface
      * @param int $position
      */
     public function setPosition($position);
+
+    /**
+     * @return MenuEntryInterface
+     */
+    public function getSubEntries();
+
+    /**
+     * @param Collection $subEntries
+     */
+    public function setSubEntries(Collection $subEntries);
+    /**
+     * @return bool
+     */
+    public function hasSubEntries();
 }

@@ -10,7 +10,9 @@
     <style>
         .delete:after {
             content: '@lang('filmoteca/static-pages::general.delete')';
-            display: block;
+        }
+        .select:before {
+            content: '@lang('filmoteca/static-pages::menus.select-to-add-sub-entries')';
         }
     </style>
 
@@ -78,17 +80,25 @@
                     <div class="panel-body">
                         <h2>@lang('filmoteca/static-pages::menus.menu-structure')</h2>
                         <p>@lang('filmoteca/static-pages::menus.sort-instructions')</p>
-                        <ul class="menu-entries list-group">
-                            @if ($menu !== null)
-                                @foreach ($menu->getEntries() as $entry)
-                                    <li class="menu-entry list-group-item sortable">
-                                        <p class="label">{{ $entry->label }}</p>
-                                        <small class="url">{{ $entry->url }}</small>
-                                        <p><a class="text-danger delete" href="#"></a></p>
-                                    </li>
-                                @endforeach
-                            @endif
-                        </ul>
+                        <div class="menu-container menu-entry selected">
+                            <a class="text-info select" href="#"></a>
+                            <ul class="menu-entries list-group">
+                                @if ($menu !== null)
+                                    @foreach ($menu->getEntries() as $entry)
+                                        <li class="menu-entry list-group-item sortable">
+                                            <div class="content">
+                                                <p class="label">{{ $entry->label }}</p>
+                                                <small class="url">{{ $entry->url }}</small>
+                                                <a class="text-danger delete" href="#"></a>
+                                            </div>
+                                            <ul class="menu-entries list-group">
+
+                                            </ul>
+                                        </li>
+                                    @endforeach
+                                @endif
+                            </ul>
+                        </div>
                     </div>
                     <div class="panel-footer">
                         @if ($menu === null)

@@ -1,6 +1,7 @@
 <?php
 
 use Filmoteca\StaticPages\Models\StaticPage\StaticPageInterface;
+use Filmoteca\StaticPages\Models\Menu\MenuEntryInterface;
 use Filmoteca\StaticPages\Types\NodeInterface;
 use Illuminate\Support\Collection;
 
@@ -49,4 +50,51 @@ Form::macro('staticPagesTree', function (NodeInterface $tree) {
     $result .= '</ul>';
 
     return $result;
+});
+
+Form::macro('siblingsPages', function (StaticPageInterface $currentPage) {
+
+    if (!$currentPage->hasParent()) {
+        return '<ul></ul>';
+    }
+
+    $listItems = $currentPage
+        ->getParentPage()
+        ->getChildPages()
+        ->reduce(function ($listItems, StaticPageInterface $childPage) use ($currentPage) {
+
+            $class = $currentPage->getId() === $childPage->getId()? 'current': '';
+
+            $listItems .= "<li class=\"$class\">";
+            $listItems .= HTML::link($childPage->getSlug(), $childPage->getTitle());
+            $listItems .= '</li>';
+
+            return $listItems;
+        }, '');
+
+    return '<ul>' . $listItems . '</ul>';
+});
+
+Form::macro('menu', function (Collection $menuEntries = null) {
+
+    if ($menuEntries === null) {
+        return '<ul></ul>';
+    }
+
+    $listItems = $menuEntries->reduce(function ($listItems, MenuEntryInterface $menuEntry) {
+
+        $listItems .= '<li>';
+        $listItems .= HTML::link($menuEntry->getUrl(), $menuEntry->getLabel());
+
+        if ($menuEntry->hasSubEntries()) {
+            $listItems .= Form::menu($menuEntry->getSubEntries());
+        }
+
+        $listItems .= '</li>';
+
+        return $listItems;
+    }, '');
+
+
+    return '<ul>' . $listItems . '</ul>';
 });

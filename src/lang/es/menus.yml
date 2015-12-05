@@ -9,3 +9,4 @@ sort-instructions: Puedes arrastrar las entradas del menú para ordenarlas.
 menu-name: Nombre del menú
 menu-name-description: Éste nombre sirve solo para identificar el menú, el usuario final no lo podra ver.
 not-exists: El menú no existe.
+select-to-add-sub-entries: Seleccionar para agregar subentradas

@@ -8,6 +8,22 @@
 
     'use strict';
 
+    /**************************************************************************
+     * jQuery Objects
+     *************************************************************************/
+
+    var $links              = $('#links');
+    var $pages              = $('#pages');
+    var $menuEntries        = $('.menu-entries');
+    var $menuContainer      = $('.menu-container');
+    var $addPages           = $('.add-pages');
+    var $addLink            = $('.add-link');
+    var $selectedMenu       = $menuContainer;
+
+    /**************************************************************************
+     * Objects
+     *************************************************************************/
+
     /**
      *
      * @param menuEntries
@@ -16,21 +32,27 @@
     var Menu = function (menuEntries) {
 
         this.menuEntryTemplate =
-            '<li class="menu-entry list-group-item sortable">' +
-                '<p class="label">{{ title }}</p>' +
-                '<small class="url">{{ url }}</small>' +
-                '<p><a href="#" class="text-danger delete"></a></p>' +
+            '<li class="menu-entry list-group-item">' +
+                '<div class="content">' +
+                    '<p class="label">{{ title }}</p>' +
+                    '<small class="url">{{ url }}</small>' +
+                    '<p>' +
+                        '<a href="#" class="text-danger delete"></a>' +
+                        '<a href="#" class="text-info select"></a>' +
+                    '</p>' +
+                '</div>' +
+                '<ul class="menu-entries list-group-item" >' +
+                '</ul>' +
             '</li>';
-        this.menuEntries    = menuEntries;
+        this.menuEntries = menuEntries;
     };
 
     Menu.prototype.addEntry = function (data) {
 
-        this.menuEntries.append(
-            this.renderMenuEntry(data)
-        );
-    };
+        var $newEntry = $(this.renderMenuEntry(data));
 
+        this.menuEntries.append($newEntry);
+    };
 
     Menu.prototype.renderMenuEntry = function (data) {
 
@@ -40,7 +62,7 @@
     Menu.prototype.render = function (template, data) {
 
         for (var key in data) {
-            var regularExpression = new RegExp('{{ ' + key + ' }}', 'ig');
+            var regularExpression = new RegExp('{{\\s*' + key + '\\s*}}', 'ig');
             template = template.replace(regularExpression, data[key])
         }
 
@@ -76,19 +98,15 @@
      * Main
      *************************************************************************/
 
-    var $links              = $('#links');
-    var $pages              = $('#pages');
-    var $menuEntries        = $('.menu-entries');
-    var menu                = new Menu($menuEntries);
-
-    $menuEntries.sortable();
+    var menu            = new Menu($menuEntries);
 
     /**************************************************************************
      * Controls
      *************************************************************************/
 
-    $('.add-pages').click($pages, function () {
+    $menuEntries.sortable();
 
+    $addPages.click($pages, function () {
         $pages
             .find('input[type="checkbox"]')
             .each(function () {
@@ -110,8 +128,7 @@
             });
     });
 
-    $('.add-link').click($links, function () {
-
+    $addLink.click($links, function () {
         var data = {
             title: $links.find('input[name="label"]').val(),
             url: $links.find('input[name="link"]').val()
@@ -124,8 +141,29 @@
         event.preventDefault();
 
         var $link = $(event.target);
+        var $menuEntry = $link.closest('.menu-entry');
 
-        $link.closest('.menu-entry').remove();
+        if ($menuEntry.hasClass('selected')) {
+            $selectedMenu = $menuEntry
+                .parents('.menu-entry')
+                .addClass('selected');
+
+            menu.menuEntries = $selectedMenu.children('.menu-entries').sortable();
+        }
+
+        $menuEntry.remove();
+    });
+
+    $menuContainer.on('click', '.select', function (event) {
+        event.preventDefault();
+
+        var $link       = $(event.target);
+        var $menuEntry  = $link.closest('.menu-entry');
+
+        $selectedMenu.removeClass('selected');
+
+        $selectedMenu = $menuEntry.addClass('selected');
+        menu.menuEntries = $selectedMenu.children('.menu-entries').sortable();
     });
 
     /**************************************************************************
@@ -134,7 +172,9 @@
 
     $(document.forms['menu-creation-form']).submit(function (event) {
 
-        event.preventDefault();
+        event.preventDefault({
+            toleranceElement: '> div'
+        });
 
         var $this       = $(this);
         var $menuForm   = $(document.forms['menu-form']);

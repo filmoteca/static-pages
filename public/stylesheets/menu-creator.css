@@ -2,6 +2,14 @@
     cursor: move;
 }
 
+.menu-container {
+    padding: 0 0 10px 10px;
+}
+
+.menu-entries {
+    position: relative;
+}
+
 .menu-entry .menu-id {
     display: none;
 }
@@ -19,7 +27,19 @@
     border-radius: inherit;
 }
 
+ul ul {
+    margin-right: 20px;
+}
+
 ul.pages {
     list-style: none;
     padding-left: 10px
+}
+
+.selected {
+    background-color: #F9F9F9;
+}
+
+.select, .delete {
+    padding-left: 12px;
 }

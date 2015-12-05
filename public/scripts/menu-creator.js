@@ -33,16 +33,16 @@
 
         this.menuEntryTemplate =
             '<li class="menu-entry list-group-item">' +
-                '<div class="content">' +
-                    '<p class="label">{{ title }}</p>' +
-                    '<small class="url">{{ url }}</small>' +
-                    '<p>' +
-                        '<a href="#" class="text-danger delete"></a>' +
-                        '<a href="#" class="text-info select"></a>' +
-                    '</p>' +
-                '</div>' +
-                '<ul class="menu-entries list-group-item" >' +
-                '</ul>' +
+            '<div class="content">' +
+            '<p class="label">{{ title }}</p>' +
+            '<small class="url">{{ url }}</small>' +
+            '<p>' +
+            '<a href="#" class="text-danger delete"></a>' +
+            '<a href="#" class="text-info select"></a>' +
+            '</p>' +
+            '</div>' +
+            '<ul class="menu-entries list-group-item" >' +
+            '</ul>' +
             '</li>';
         this.menuEntries = menuEntries;
     };
@@ -56,7 +56,7 @@
 
     Menu.prototype.renderMenuEntry = function (data) {
 
-       return this.render(this.menuEntryTemplate, data);
+        return this.render(this.menuEntryTemplate, data);
     };
 
     Menu.prototype.render = function (template, data) {

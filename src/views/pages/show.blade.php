@@ -5,13 +5,22 @@
 @endsection
 
 @section(Config::get('filmoteca/static-pages::sections.main-menu'))
-    {{ Form::menu($mainMenu->getEntries()) }}
+    Main menu:
+    <div class="well">
+        {{ Form::menu($mainMenu->getEntries(), 'super-menu', 'entry', 'link', 'sub-menu') }}
+    </div>
 @endsection
 
 @section(Config::get('filmoteca/static-pages::sections.sidebar'))
-    {{ Form::siblingsPages($page) }}
+    Side bar menu (siblings pages):
+    <div class="well">
+        {{ Form::siblingsPages($page) }}
+    </div>
 @endsection
 
 @section(Config::get('filmoteca/static-pages::sections.content'))
-    {{ $page->getContent() }}
+    Content:
+    <div class="well">
+        {{ $page->getContent() }}
+    </div>
 @endsection

@@ -84,23 +84,26 @@ class MenusEloquentRepository implements MenusRepositoryInterface
     /**
      * @param $menu
      * @param array $entries
+     * @param int $superEntryId
      * @return \Filmoteca\StaticPages\Models\Menu\MenuInterface
      */
-    protected function saveEntries(Menu $menu, array $entries)
+    protected function saveEntries(Menu $menu, array $entries, $superEntryId = null)
     {
-        $menuEntries = array_reduce($entries, function ($menuEntries, $entry) {
-
+        foreach ($entries as $entry) {
             $menuEntry = MenuEntry::firstOrNew([
                 'url' => $entry['url'],
                 'label' => $entry['label']
             ]);
 
-            $menuEntries[] = $menuEntry;
+            $menuEntry->position = $entry['position'];
+            $menuEntry->super_entry_id = $superEntryId;
+            $menuEntry->menu_id = $superEntryId === null? $menu->id: null;
+            $menuEntry->save();
 
-            return $menuEntries;
-        }, []);
-
-        $menu->entries()->saveMany($menuEntries);
+            if (isset($entry['subEntries'])) {
+                $this->saveEntries($menu, $entry['subEntries'], $menuEntry->id);
+            }
+        }
 
         return $menu;
     }

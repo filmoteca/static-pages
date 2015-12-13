@@ -5,7 +5,10 @@
  | Private Routes
  |-----------------------------------------------------------------------------
  */
-Route::group(['prefix' => Config::get('static-pages::admin-url-prefix')], function () {
+Route::group([
+    'prefix' => Config::get('filmoteca/static-pages::admin-url-prefix'),
+    'before' => Config::get('filmoteca/static-pages::auth-filter')
+], function () {
 
     Route::resource('page', 'Filmoteca\StaticPages\StaticPagesController');
     Route::resource('menus', 'Filmoteca\StaticPages\MenusController');

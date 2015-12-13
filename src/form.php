@@ -2,6 +2,7 @@
 
 use Filmoteca\StaticPages\Models\StaticPage\StaticPageInterface;
 use Filmoteca\StaticPages\Models\Menu\MenuEntryInterface;
+use Filmoteca\StaticPages\Models\Menu\MenuInterface;
 use Filmoteca\StaticPages\Types\NodeInterface;
 use Illuminate\Support\Collection;
 
@@ -85,32 +86,52 @@ Form::macro('siblingsPages', function (StaticPageInterface $currentPage) {
 });
 
 Form::macro('menu', function (
-    Collection $menuEntries = null,
+    $menu = null,
     $menuClass = '',
     $entryClass = '',
     $linkClass = '',
-    $subMenuClass = '',
-    $isSubMenu = false
+    $subMenuClass = ''
 ) {
 
-    if ($menuEntries === null) {
+    if ($menu === null) {
         return '<ul></ul>';
     }
 
-    $listItems = $menuEntries->reduce(
+    if ($menu instanceof MenuInterface) {
+        $menuEntries = $menu->getEntries();
+    }
+
+    if ($menu instanceof Collection) {
+        $menuEntries = $menu;
+    }
+
+    $listItems = $menu->reduce(
         function ($listItems, MenuEntryInterface $menuEntry) use ($entryClass, $linkClass, $menuClass, $subMenuClass) {
 
-            $listItems .= "<li class=\"$entryClass\">";
-            $listItems .= HTML::link($menuEntry->getUrl(), $menuEntry->getLabel(), ['class' => $linkClass]);
-
             if ($menuEntry->hasSubEntries()) {
+                $listItems .= "<li class=\"dropdown $entryClass\">";
+
+                $listItems .=
+                    "<a href=\"" . $menuEntry->getUrl() . "\" " .
+                    "data-toggle=\"dropdown\" " .
+                    "class=\"dropdown-toggle $linkClass\"" .
+                    ">" .
+                    $menuEntry->getLabel() . '<span class="caret"></span>' .
+                    "</a>";
+
                 $listItems .= Form::menu(
                     $menuEntry->getSubEntries(),
-                    $menuClass,
+                    $subMenuClass,
                     $entryClass,
                     $linkClass,
-                    $subMenuClass,
-                    true
+                    $subMenuClass
+                );
+            } else {
+                $listItems .= "<li class=\"$entryClass\">";
+                $listItems .= HTML::link(
+                    $menuEntry->getUrl(),
+                    $menuEntry->getLabel(),
+                    ['class' => $linkClass]
                 );
             }
 
@@ -120,10 +141,6 @@ Form::macro('menu', function (
         },
         ''
     );
-
-    if ($isSubMenu) {
-        $menuClass = $subMenuClass;
-    }
 
     return "<ul class=\"$menuClass\">" . $listItems . '</ul>';
 });

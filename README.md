@@ -37,3 +37,9 @@ Export the assets
 ```bash
 php artisan asset:publish
 ```
+
+Export configuation
+
+```bash
+php artisan config:publish filmoteca/static-pages
+```

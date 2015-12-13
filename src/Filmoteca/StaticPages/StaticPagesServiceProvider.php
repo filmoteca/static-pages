@@ -52,6 +52,7 @@ class StaticPagesServiceProvider extends ServiceProvider
     {
         include __DIR__ . '/../../routes.php';
         include __DIR__ . '/../../form.php';
+        include __DIR__ . '/../../filters.php';
     }
 
     protected function registerStaticPageProvider()

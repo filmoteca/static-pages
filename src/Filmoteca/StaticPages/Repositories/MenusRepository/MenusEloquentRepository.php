@@ -11,6 +11,8 @@ use Filmoteca\StaticPages\Models\Menu\MenuEntryEloquent as MenuEntry;
  */
 class MenusEloquentRepository implements MenusRepositoryInterface
 {
+    const MAIN_MENU_NAME = 'main';
+
     /**
      * @param array $rawMenu
      * @return MenuInterface
@@ -79,6 +81,11 @@ class MenusEloquentRepository implements MenusRepositoryInterface
     public function findByName($name)
     {
         return Menu::where('name', $name)->get()->first();
+    }
+
+    public function findMainMenu()
+    {
+        return $this->findByName(static::MAIN_MENU_NAME);
     }
 
     /**

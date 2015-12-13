@@ -46,4 +46,9 @@ interface MenusRepositoryInterface
      * @return \Filmoteca\StaticPages\Models\Menu\MenuInterface
      */
     public function findByName($name);
+
+    /**
+     * @return \Filmoteca\StaticPages\Models\Menu\MenuInterface
+     */
+    public function findMainMenu();
 }

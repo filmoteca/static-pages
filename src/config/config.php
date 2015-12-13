@@ -7,7 +7,8 @@ return [
      | to the named route.
      */
     'admin-url-prefix'      => 'filmoteca/static-pages',
-    'pages-url-prefix'     => 'pages',
+    'pages-url-prefix'      => 'pages',
+    'auth-filter'           => 'auth-filter',
     'pages-layout'  => 'filmoteca/static-pages::layouts.pages',
     'sections'      => [
         'title'     => 'title',

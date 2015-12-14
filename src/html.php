@@ -66,7 +66,7 @@ HTML::macro('menu', function (
                     $menuEntry->getLabel() . '<span class="caret"></span>' .
                     "</a>";
 
-                $listItems .= Form::menu(
+                $listItems .= HTML::menu(
                     $menuEntry->getSubEntries(),
                     $subMenuClass,
                     $entryClass,

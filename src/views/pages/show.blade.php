@@ -7,14 +7,14 @@
 @section(Config::get('filmoteca/static-pages::sections.main-menu'))
     Main menu:
     <div class="well">
-        {{ Form::menu($mainMenu->getEntries(), 'super-menu', 'entry', 'link', 'sub-menu') }}
+        {{ HTML::menu($mainMenu->getEntries(), 'super-menu', 'entry', 'link', 'sub-menu') }}
     </div>
 @endsection
 
 @section(Config::get('filmoteca/static-pages::sections.sidebar'))
     Side bar menu (siblings pages):
     <div class="well">
-        {{ Form::siblingsPages($page) }}
+        {{ HTML::siblingsPages($page) }}
     </div>
 @endsection
 

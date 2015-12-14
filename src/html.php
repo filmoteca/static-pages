@@ -14,10 +14,7 @@ HTML::macro('siblingsPages', function (StaticPageInterface $currentPage) {
         ->reduce(function ($listItems, StaticPageInterface $childPage) use ($currentPage) {
 
             $class  = $currentPage->getId() === $childPage->getId()? 'current': '';
-            $url    = '//' .
-                Request::getHost() . '/' .
-                Config::get('filmoteca/static-pages::pages-url-prefix') . '/' .
-                $childPage->getSlug();
+            $url    = filmoteca_create_link_of_page($childPage);
 
             if ($childPage->getChildPages()->isEmpty()) {
                 $listItems .= "<li class=\"$class\">";
@@ -91,3 +88,38 @@ HTML::macro('menu', function (
 
     return "<ul class=\"$menuClass\">" . $listItems . '</ul>';
 });
+
+HTML::macro('breadcrumbs', function (StaticPageInterface $currentPage, $isActive = true) {
+
+    $items  = '';
+    $url    = filmoteca_create_link_of_page($currentPage);
+
+    if (!$currentPage->hasParent()) {
+        if ($isActive) {
+            return "<li class\"active\">" . $currentPage->getTitle() . "</li>";
+        }
+
+        return "<li><a href=\"" . $url . "\">" . $currentPage->getTitle() . "</a></li>";
+    }
+
+    $items .= HTML::breadcrumbs($currentPage->getParentPage(), false);
+
+    if ($isActive) {
+        $items .= "<li class\"active\">" . $currentPage->getTitle() . "</li>";
+    } else {
+        $items .= "<li><a href=\"$url\">" . $currentPage->getTitle() . "</a></li>";
+    }
+
+    return $items;
+});
+
+
+function filmoteca_create_link_of_page(StaticPageInterface $page)
+{
+    $url = '//' .
+    Request::getHost() . '/' .
+    Config::get('filmoteca/static-pages::pages-url-prefix') . '/' .
+    $page->getSlug();
+
+    return $url;
+}

@@ -113,6 +113,9 @@ HTML::macro('breadcrumbs', function (StaticPageInterface $currentPage, $isActive
     return $items;
 });
 
+HTML::macro('menuEntriesSortable', function (MenuEntryInterface $page) {
+
+});
 
 function filmoteca_create_link_of_page(StaticPageInterface $page)
 {

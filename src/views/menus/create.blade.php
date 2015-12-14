@@ -1,4 +1,4 @@
-@extends('filmoteca/static-pages::layouts.default')
+@extends(Config::get('filmoteca/static-pages::admin-layout'))
 
 @section('title')
     @lang('filmoteca/static-pages::menus.title')

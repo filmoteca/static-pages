@@ -10,6 +10,7 @@ return [
     'pages-url-prefix'      => 'pages',
     'auth-filter'           => 'auth-filter',
     'pages-layout'  => 'filmoteca/static-pages::layouts.pages',
+    'admin-layout'  => 'filmoteca/static-pages::layouts.default',
     'sections'      => [
         'title'     => 'title',
         'sidebar'   => 'sidebar',

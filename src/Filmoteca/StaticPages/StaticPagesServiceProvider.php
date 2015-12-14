@@ -1,6 +1,5 @@
 <?php namespace Filmoteca\StaticPages;
 
-use Filmoteca\StaticPages\Models\StaticPage\Eloquent\StaticPageProvider;
 use Filmoteca\StaticPages\Validators\StaticPageValidator;
 use Illuminate\Support\ServiceProvider;
 
@@ -70,7 +69,10 @@ class StaticPagesServiceProvider extends ServiceProvider
 
         $this->app->bind(
             'Filmoteca\StaticPages\Repositories\MenusRepository\MenusRepositoryInterface',
-            'Filmoteca\StaticPages\Repositories\MenusRepository\MenusEloquentRepository'
+            function () {
+                $mainMenuName = Config::get('filmoteca/static-pages::main-menu-name');
+                return new Repositories\MenusRepository\MenusEloquentRepository($mainMenuName);
+            }
         );
     }
 }

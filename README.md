@@ -43,3 +43,9 @@ Export configuation
 ```bash
 php artisan config:publish filmoteca/static-pages
 ```
+
+Run migrations
+
+```bash
+php artisan migrate --package="filmoteca/static-pages"
+```

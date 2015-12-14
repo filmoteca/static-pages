@@ -51,6 +51,7 @@ class StaticPagesServiceProvider extends ServiceProvider
     public function loadIncludes()
     {
         include __DIR__ . '/../../routes.php';
+        include __DIR__ . '/../../html.php';
         include __DIR__ . '/../../form.php';
         include __DIR__ . '/../../filters.php';
     }

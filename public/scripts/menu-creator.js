@@ -175,8 +175,8 @@
         $entries.children('.menu-entry').each(function (index, entry) {
 
             var $entry      = $(entry);
-            var label       = $entry.find('.label').text();
-            var url         = $entry.find('.url').text();
+            var label       = $entry.find('.label').first().text();
+            var url         = $entry.find('.url').first().text();
             var parentName  = level + '[' + index + ']';
 
             menuForm.addInput(parentName + '[position]', index);

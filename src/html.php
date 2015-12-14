@@ -3,27 +3,31 @@
 use Filmoteca\StaticPages\Models\StaticPage\StaticPageInterface;
 use Filmoteca\StaticPages\Models\Menu\MenuEntryInterface;
 use Filmoteca\StaticPages\Models\Menu\MenuInterface;
-use Illuminate\Support\Collection;
 
 HTML::macro('siblingsPages', function (StaticPageInterface $currentPage) {
 
-    if (!$currentPage->hasParent()) {
-        return '<ul></ul>';
-    }
+    $childPages = $currentPage->hasParent()?
+        $currentPage->getParentPage()->getChildPages():
+        $currentPage->getChildPages();
 
-    $listItems = $currentPage
-        ->getParentPage()
-        ->getChildPages()
+    $listItems = $childPages
         ->reduce(function ($listItems, StaticPageInterface $childPage) use ($currentPage) {
 
             $class  = $currentPage->getId() === $childPage->getId()? 'current': '';
             $url    = '//' .
                 Request::getHost() . '/' .
                 Config::get('filmoteca/static-pages::pages-url-prefix') . '/' .
-                $currentPage->getSlug();
+                $childPage->getSlug();
 
-            $listItems .= "<li class=\"$class\">";
-            $listItems .= HTML::link($url, $childPage->getTitle());
+            if ($childPage->getChildPages()->isEmpty()) {
+                $listItems .= "<li class=\"$class\">";
+                $listItems .= HTML::link($url, $childPage->getTitle());
+            } else {
+                $listItems .= "<li class=\"$class has-sub\">";
+                $listItems .= HTML::link($url, $childPage->getTitle());
+                $listItems .= HTML::siblingsPages($childPage->getChildPages()->first());
+            }
+
             $listItems .= '</li>';
 
             return $listItems;
@@ -33,26 +37,22 @@ HTML::macro('siblingsPages', function (StaticPageInterface $currentPage) {
 });
 
 HTML::macro('menu', function (
-    $menu = null,
+    $menuEntries = null,
     $menuClass = '',
     $entryClass = '',
     $linkClass = '',
     $subMenuClass = ''
 ) {
 
-    if ($menu === null) {
+    if ($menuEntries === null) {
         return '<ul></ul>';
     }
 
-    if ($menu instanceof MenuInterface) {
-        $menuEntries = $menu->getEntries();
+    if ($menuEntries instanceof MenuInterface) {
+        $menuEntries = $menuEntries->getEntries();
     }
 
-    if ($menu instanceof Collection) {
-        $menuEntries = $menu;
-    }
-
-    $listItems = $menu->reduce(
+    $listItems = $menuEntries->reduce(
         function ($listItems, MenuEntryInterface $menuEntry) use ($entryClass, $linkClass, $menuClass, $subMenuClass) {
 
             if ($menuEntry->hasSubEntries()) {

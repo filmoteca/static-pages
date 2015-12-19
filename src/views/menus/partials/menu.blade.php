@@ -11,7 +11,7 @@
         </div>
         <ul class="menu-entries list-group-item">
             @if ($entry->hasSubEntries())
-                @include('filmoteca/static-pages::static-pages.partials.menu', ['entries' => $entry->getSubEntries()])
+                @include('filmoteca/static-pages::menus.partials.menu', ['entries' => $entry->getSubEntries()])
             @endif
         </ul>
     </li>

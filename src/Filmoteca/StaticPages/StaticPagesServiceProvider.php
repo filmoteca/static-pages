@@ -2,6 +2,7 @@
 
 use Filmoteca\StaticPages\Validators\StaticPageValidator;
 use Illuminate\Support\ServiceProvider;
+use Config;
 
 class StaticPagesServiceProvider extends ServiceProvider
 {
@@ -74,5 +75,7 @@ class StaticPagesServiceProvider extends ServiceProvider
                 return new Repositories\MenusRepository\MenusEloquentRepository($mainMenuName);
             }
         );
+
+        $this->app->bind('menus_repository', 'Filmoteca\StaticPages\Repositories\MenusRepository\MenusRepositoryInterface');
     }
 }

@@ -89,7 +89,7 @@
                             <ul class="menu-entries list-group">
                                 @if ($menu !== null)
                                     @include(
-                                        'filmoteca/static-pages::static-pages.partials.menu',
+                                        'filmoteca/static-pages::menus.partials.menu',
                                         ['entries' => $menu->getEntries()]
                                     )
                                 @endif

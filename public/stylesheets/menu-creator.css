@@ -25,6 +25,7 @@
     white-space: normal;
     vertical-align: inherit;
     border-radius: inherit;
+    float: none;
 }
 
 ul ul {
@@ -42,7 +43,7 @@ ul.pages .page .url {
     display: none;
 }
 
-.selected {
+li.selected {
     background-color: #F9F9F9;
 }
 

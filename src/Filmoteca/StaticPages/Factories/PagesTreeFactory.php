@@ -24,8 +24,10 @@ class PagesTreeFactory
             return $page->hasParent()? 'children' : 'parents';
         });
 
-        $parents = new Collection($pages->get('parents'));
-        $parents->each(function (StaticPageInterface $page) use ($tree) {
+        $parents = $pages->get('parents') !== null? : [];
+
+        $parentsCollection = new Collection($parents);
+        $parentsCollection->each(function (StaticPageInterface $page) use ($tree) {
             $node = new Node();
             $node->setId($page->getId());
             $node->setContent($page);

@@ -4,6 +4,14 @@
     @lang('filmoteca/static-pages::menus.title')
 @endsection
 
+@section('scripts')
+    <script src="{{ asset('packages/filmoteca/static-pages/scripts/menu-creator.js') }}"></script>
+@endsection
+
+@section('stylesheets')
+    <link rel="stylesheet" href="{{ asset('packages/filmoteca/static-pages/stylesheets/menu-creator.css') }}">
+@endsection
+
 @section('content')
 
     {{-- With this style we archivement to do not hardcode text inside of the control to delete the a entry. --}}

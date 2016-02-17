@@ -20,7 +20,13 @@ class StaticPageProvider implements StaticPageProviderInterface
      */
     public function findAll()
     {
-        return $this->createModel()->newQuery()->get();
+        $staticPages = $this->createModel()->newQuery()->get();
+        
+        if ( $staticPages === null) {
+            return new \Illuminate\Support\Collection([])
+        }
+        
+        return $staticPages;
     }
 
     /**

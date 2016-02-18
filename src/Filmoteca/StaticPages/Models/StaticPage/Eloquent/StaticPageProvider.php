@@ -23,7 +23,7 @@ class StaticPageProvider implements StaticPageProviderInterface
         $staticPages = $this->createModel()->newQuery()->get();
         
         if ( $staticPages === null) {
-            return new \Illuminate\Support\Collection([])
+            return new \Illuminate\Support\Collection([]);
         }
         
         return $staticPages;

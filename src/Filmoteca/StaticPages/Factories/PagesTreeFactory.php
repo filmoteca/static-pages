@@ -25,6 +25,7 @@ class PagesTreeFactory
         });
 
         $parents = $pages->get('parents') !== null? $pages->get('parents'): [];
+        $children = $pages->get('children') !== null? $pages->get('children'): [];
 
         $parentsCollection = new Collection($parents);
         $parentsCollection->each(function (StaticPageInterface $page) use ($tree) {
@@ -35,7 +36,7 @@ class PagesTreeFactory
             $tree->addChild($node);
         });
 
-        static::insertChildren($tree, new Collection($pages->get('children')));
+        static::insertChildren($tree, new Collection($children));
 
         return $tree;
     }
